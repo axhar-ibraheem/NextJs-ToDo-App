@@ -1,7 +1,30 @@
 import { Button, Collapse, Form } from "react-bootstrap";
-import { useState } from "react";
-const AddTask = () => {
+import { useState, useRef } from "react";
+const AddTask = (props) => {
   const [open, setOpen] = useState(false);
+  const taskRef = useRef();
+
+  const onTaskSubmitHandler = async (e) => {
+    e.preventDefault();
+    const enteredTask = {
+      task: taskRef.current.value,
+      completed: false,
+    };
+    const response = await fetch("/api/new-todos", {
+      method: "POST",
+      body: JSON.stringify(enteredTask),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    const task = {
+      id: data.insertedId,
+      ...enteredTask,
+    };
+    props.addTask(task);
+    console.log(data);
+  };
   return (
     <>
       <Button
@@ -15,17 +38,22 @@ const AddTask = () => {
       </Button>
       <Collapse in={open}>
         <div id="example-collapse-text">
-          <Form>
-            <Form.Group className=" d-flex" controlId="formBasicEmail">
+          <Form onSubmit={onTaskSubmitHandler} className="d-flex">
+            <Form.Group className="w-100 me-3" controlId="formBasicEmail">
               <Form.Control
                 as="textarea"
-                className="me-3 border-2 border-dark"
+                className="border-2 border-dark"
                 placeholder="Enter New Task"
+                ref={taskRef}
               />
-              <Button variant="dark" className="align-self-end px-4">
-                Add
-              </Button>
             </Form.Group>
+            <Button
+              type="submit"
+              variant="dark"
+              className="align-self-end ms-auto px-5"
+            >
+              Add
+            </Button>
           </Form>
         </div>
       </Collapse>

@@ -1,13 +1,7 @@
 import { Card, ListGroup } from "react-bootstrap";
 import ToDos from "./ToDos";
-const todos = [
-  { title: "Complete assignment", completed: false },
-  { title: "Go grocery shopping", completed: true },
-  { title: "Attend meeting", completed: false },
-  { title: "Exercise for 30 minutes", completed: false },
-  { title: "Read a book", completed: true },
-];
-const TaskList = () => {
+
+const TaskList = (props) => {
   return (
     <Card className="mt-3 shadow border-0">
       <div className="bg-primary bg-gradient py-2 rounded-top d-flex">
@@ -15,12 +9,8 @@ const TaskList = () => {
         <span className="ms-auto pe-3 fw-bold text-light">Action</span>
       </div>
       <ListGroup variant="flush">
-        {todos.map((todo) => (
-          <ToDos
-            key={Math.random()}
-            title={todo.title}
-            completed={todo.completed}
-          />
+        {props.todos.map((todo) => (
+          <ToDos key={todo.id} title={todo.task} completed={todo.completed} />
         ))}
       </ListGroup>
     </Card>
