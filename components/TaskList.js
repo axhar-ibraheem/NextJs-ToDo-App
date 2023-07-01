@@ -10,7 +10,12 @@ const TaskList = (props) => {
       </div>
       <ListGroup variant="flush">
         {props.todos.map((todo) => (
-          <ToDos key={todo.id} title={todo.task} completed={todo.completed} />
+          <ToDos
+            key={todo.id}
+            task={todo.task}
+            completed={todo.completed}
+            id={todo.id}
+          />
         ))}
       </ListGroup>
     </Card>
