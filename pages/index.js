@@ -10,6 +10,21 @@ const HomePage = (props) => {
   const addTaskHandler = (taskItem) => {
     setTasks([...tasks, taskItem]);
   };
+
+  const deleteTaskHandler = async (id) => {
+    const response = await fetch(`/api/new-todos?id=${id}`, {
+      method: "DELETE",
+      body: JSON.stringify({
+        id: id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+    console.log(data);
+  };
   return (
     <>
       <Head>
@@ -19,6 +34,7 @@ const HomePage = (props) => {
           content="make your todos in easy and sophisticated way"
         />
       </Head>
+
       <main>
         <Row className="text-center mx-0 mt-3">
           <Col lg="6" className="mx-auto py-2 rounded-top-3">
@@ -27,7 +43,7 @@ const HomePage = (props) => {
               <AddTask addTask={addTaskHandler} />
             </div>
             <div>
-              <TaskList todos={tasks} />
+              <TaskList todos={tasks} deleteTask={deleteTaskHandler} />
             </div>
           </Col>
         </Row>
