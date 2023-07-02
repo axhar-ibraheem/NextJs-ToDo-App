@@ -1,12 +1,13 @@
 import Head from "next/head";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import AddTask from "@/components/AddTask";
 import TaskList from "@/components/TaskList";
 import { MongoClient } from "mongodb";
 import { useState } from "react";
+import { useRouter } from "next/router";
 const HomePage = (props) => {
   const [tasks, setTasks] = useState([...props.todos]);
-
+  const router = useRouter();
   const addTaskHandler = (taskItem) => {
     setTasks([...tasks, taskItem]);
   };
@@ -25,6 +26,11 @@ const HomePage = (props) => {
     setTasks((prev) => prev.filter((task) => task.id !== id));
     console.log(data);
   };
+
+  const onClickHandler = () => {
+    router.push("/completed-tasks");
+  };
+
   return (
     <>
       <Head>
@@ -43,6 +49,15 @@ const HomePage = (props) => {
               <AddTask addTask={addTaskHandler} />
             </div>
             <div>
+              <div className="pt-2">
+                <Button
+                  onClick={onClickHandler}
+                  variant="danger"
+                  className="w-100"
+                >
+                  View Completed Tasks
+                </Button>
+              </div>
               <TaskList todos={tasks} deleteTask={deleteTaskHandler} />
             </div>
           </Col>
