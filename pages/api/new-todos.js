@@ -20,14 +20,12 @@ const handler = async (req, res) => {
     if (req.method === "POST") {
       const data = req.body;
       const result = await todosCollection.insertOne(data);
-      console.log(result);
       res.status(201).json(result);
 
-      ///PUT request
+      //PUT request
     } else if (req.method === "PUT") {
       const { id, task, completed } = req.body;
 
-      console.log(req.body);
       if (!id || !task || completed === undefined) {
         res.status(400).json({ message: "Missing required fields" });
         return;
@@ -37,7 +35,7 @@ const handler = async (req, res) => {
         { _id: new ObjectId(id) },
         { $set: { task, completed } }
       );
-      console.log(result);
+      
 
       if (result.matchedCount > 0) {
         res.status(200).json({ message: "Todo updated successfully" });
@@ -51,7 +49,6 @@ const handler = async (req, res) => {
       const result = await todosCollection.deleteOne({
         _id: new ObjectId(id),
       });
-      console.log(result);
       if (result.deletedCount === 1) {
         res.status(200).json({ message: "Todo deleted successfully" });
       } else {

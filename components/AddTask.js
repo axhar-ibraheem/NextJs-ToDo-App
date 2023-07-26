@@ -23,7 +23,6 @@ const AddTask = (props) => {
       ...enteredTask,
     };
     props.addTask(task);
-    console.log(data);
   };
   return (
     <>

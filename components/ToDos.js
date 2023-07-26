@@ -5,6 +5,7 @@ import { useState } from "react";
 const ToDos = (props) => {
   const [completed, setCompleted] = useState(props.completed);
   const { id } = props;
+  
   const onCheckHandler = async () => {
     setCompleted(!completed);
     const response = await fetch("/api/new-todos", {
@@ -18,8 +19,6 @@ const ToDos = (props) => {
         "Content-Type": "application/json",
       },
     });
-    const data = await response.json();
-    console.log(data);
   };
 
   const onDeleteHandler = () => {

@@ -5,26 +5,35 @@ import { useState } from "react";
 const CompletedTasks = (props) => {
   const completedTasks = props.todos.filter((task) => task.completed);
   const [tasks, setTasks] = useState([...completedTasks]);
+  const content = (
+    <div className="text-center pt-5">
+      <h5>No completed Tasks!</h5>
+    </div>
+  );
   return (
     <div className="p-4">
-      <div className="text-center pb-3">
-        <h4>Completed Tasks</h4>
+      <div className="text-center pb-2 border-bottom">
+        <h4 className="text-danger">Completed Tasks</h4>
       </div>
-      <ListGroup
-        variant="flush"
-        className="mx-auto shadow rounded-3"
-        style={{ maxWidth: "35rem" }}
-      >
-        {tasks.map((todo) => (
-          <CompletedTodos
-            key={todo.id}
-            task={todo.task}
-            completed={todo.completed}
-            id={todo.id}
-            deleteTask={props.deleteTask}
-          />
-        ))}
-      </ListGroup>
+      {tasks.length > 0 ? (
+        <ListGroup
+          variant="flush"
+          className="mx-auto shadow rounded-3 mt-3"
+          style={{ maxWidth: "35rem" }}
+        >
+          {tasks.map((todo) => (
+            <CompletedTodos
+              key={todo.id}
+              task={todo.task}
+              completed={todo.completed}
+              id={todo.id}
+              deleteTask={props.deleteTask}
+            />
+          ))}
+        </ListGroup>
+      ) : (
+        content
+      )}
     </div>
   );
 };
